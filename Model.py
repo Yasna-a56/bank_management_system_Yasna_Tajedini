@@ -55,5 +55,6 @@ class Transaction(Base):
     account_id = Column(Integer, ForeignKey("accounts.id"))
 
     # -------relationships-------
-    customer = relationship("Customer", back_populates="transactions")
+    customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
+
