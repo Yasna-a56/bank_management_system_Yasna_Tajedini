@@ -6,6 +6,9 @@ soal ---> bebakhshid baraye "relationships" bayad do tarafe dar "classs" vared b
           ya faqat yeki az classha be relationships(ertebat table ha) eshare kone kafie?
 
 
+APM: salam , bale kamelan dorost neveshtid inja relationship ro .
+shayad bazi az tabel ha nakahn relationship vali baraye mohkam kari khobe b hamashon add krd
+moafagh abshid
 
 '''
 
@@ -57,4 +60,5 @@ class Transaction(Base):
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
+
 
