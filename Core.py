@@ -1,3 +1,17 @@
+'''
+Yasna: salam vaqteton bekhair
+soal ---> baraye code "numpy", behtare ke tooye file "Utils" bashe ya
+mitoone ke be soorat tab dar tab dar "Core" bashe?
+
+soal2 ---> vaqti ke dar "if" ma naboode 'account' va ya 'customer' ro be soorate 
+"raise Exception" migim hatman bayad "print" ham beshe? va chera?
+
+
+
+'''
+
+
+
 from Database import get_session
 from Model import Account, Customer, Transaction
 from Utils import hash_password, check_password
@@ -145,5 +159,6 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
