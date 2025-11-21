@@ -10,6 +10,8 @@ APM: salam , bale kamelan dorost neveshtid inja relationship ro .
 shayad bazi az tabel ha nakahn relationship vali baraye mohkam kari khobe b hamashon add krd
 moafagh abshid
 
+
+Yasna: mamnonam
 '''
 
 
@@ -25,7 +27,12 @@ class Customer(Base):
     __tablename__ = "customers"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    email = Column(String, unique=True)
+    email = Column(String, unique=True, nullable=False)
+
+    #---optional items---
+    age = Column(Integer, nullable=True)
+    phone = Column(Integer, nullable=True)
+    address = Column(String, nullable=True)
 
     # -------relationships-------
     accounts = relationship("Account", back_populates="customers")
@@ -57,8 +64,11 @@ class Transaction(Base):
     customer_id = Column(Integer, ForeignKey("customers.id"))
     account_id = Column(Integer, ForeignKey("accounts.id"))
 
+    #---transfer accounts---
+
+    from_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
+    to_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
+
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
-
-
