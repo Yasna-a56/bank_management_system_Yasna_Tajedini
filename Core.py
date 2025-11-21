@@ -3,8 +3,17 @@ Yasna: salam vaqteton bekhair
 soal ---> baraye code "numpy", behtare ke tooye file "Utils" bashe ya
 mitoone ke be soorat tab dar tab dar "Core" bashe?
 
+APM: Salam mitonid dar khode class Adminpanel estefade konid chon fght ye tabe koochike, 
+vaghty tabe bishtar bozorgtar ya 3,4 khat eutils bnvisid
+
+
 soal2 ---> vaqti ke dar "if" ma naboode 'account' va ya 'customer' ro be soorate 
 "raise Exception" migim hatman bayad "print" ham beshe? va chera?
+
+Bale baya dprint bashe, choon raise exception baraye oon customer namayesh dade mishe
+print ( hala dar ayande mikhonid yechizi has bename logg va oonja shoma roo
+server har az gahi negah mikonid (mesle printe) va mibinid ahan felan error
+pish omde vase ch moshtari ee dar che ghesmati
 
 
 
@@ -159,6 +168,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
