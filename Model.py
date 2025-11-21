@@ -12,6 +12,7 @@ moafagh abshid
 
 
 Yasna: mamnonam
+
 '''
 
 
@@ -72,3 +73,4 @@ class Transaction(Base):
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
+
