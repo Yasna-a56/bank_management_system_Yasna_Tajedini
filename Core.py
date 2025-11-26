@@ -17,6 +17,8 @@ pish omde vase ch moshtari ee dar che ghesmati
 
 
 
+Yasna: mamnoon
+
 '''
 
 
@@ -50,16 +52,12 @@ class AdminPanel:
         customer=self.session.get(Customer, customer_id)
 
         if not customer:
-            '''
-            way 1:
             print(f'Customer with id {customer_id} not found!')
-            '''
-            # way 2
             raise Exception(f'Customer with id {customer_id} not found!')
 
 
 
-        def generate_card_number():   #^^^#
+        def generate_card_number():   
             digits = np.random.randint(0,10,16)
             card_number = ''.join(digits.astype(str))
             return card_number
@@ -80,11 +78,7 @@ class AdminPanel:
         account=self.session.get(Account,account_id)
 
         if not account:
-            '''
-            way 1:
             print(f'Account with id {account_id} not found!')
-            '''
-            # way 2
             raise Exception(f'Account with id {account_id} not found!')
 
         balance= account.balance
@@ -97,11 +91,7 @@ class AdminPanel:
     def deposit(self,account_id,amount):
         account=self.session.get(Account,account_id)
         if not account:
-            '''
-            way 1:
             print(f'Account with id {account_id} not found!')
-            '''
-            # way 2
             raise Exception(f'Account with id {account_id} not found')
 
         account.balance += amount
@@ -114,11 +104,7 @@ class AdminPanel:
     def withdraw(self,account_id,amount):
         account=self.session.get(Account,account_id)
         if not account:
-            '''
-            way 1:
             print(f'Account with id {account_id} not found!')
-            '''
-            # way 2
             raise Exception(f'Account with id {account_id} not found!')
 
         balance = account.balance
@@ -168,6 +154,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
