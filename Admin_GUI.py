@@ -2,7 +2,9 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from Core import AdminPanel
 
+
 color = "#BFEFFF"
+
 class AdminGUI:
 
     def __init__(self, bank_system):
@@ -15,13 +17,10 @@ class AdminGUI:
         self.show_login_window()
         self.root.mainloop()
 
-
-
+    
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
-
-
 
     def show_login_window(self):
         self.clear()
@@ -34,8 +33,6 @@ class AdminGUI:
         self.password_entry.place(x=180, y=279)
         tk.Button(self.root, text="Login", bg="blue", fg="white", command=self.login).pack(pady=139)
 
-
-
     def login(self):
         username = self.username_entry.get()
         password = self.password_entry.get()
@@ -46,8 +43,4 @@ class AdminGUI:
             messagebox.showerror("Error", "Invalid credentials")
 
 
-
-
 app = AdminGUI(None)
-
-
