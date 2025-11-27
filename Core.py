@@ -19,13 +19,22 @@ pish omde vase ch moshtari ee dar che ghesmati
 
 Yasna: mamnoon
 
+
+
+APM:
+b nokatre tabeye create_account() dghat konid (dakhelesh comment gozashtam)
+tabeye withdraw() sharte if ro eshtebah gozashtid
+tabeye show_transaction() shoma bayad tooye deposit() withdraw() bayad y data varede table konid
+bad to show_transaction() oon dataharo neshon bdid
+
+baz harkoja ag soal dashtdi begid hatman
 '''
 
 
 
 from Database import get_session
 from Model import Account, Customer, Transaction
-from Utils import hash_password, check_password
+from Utils import hash_password, check_password , generate_card_number
 import numpy as np
 
 
@@ -55,17 +64,15 @@ class AdminPanel:
             print(f'Customer with id {customer_id} not found!')
             raise Exception(f'Customer with id {customer_id} not found!')
 
-
-
-        def generate_card_number():   
-            digits = np.random.randint(0,10,16)
-            card_number = ''.join(digits.astype(str))
-            return card_number
         print(generate_card_number())
 
+        #inja generate_card_number() 
+        #bayad baid zakhire she tooye ye variable bad biad bere too Account
+        
         hashed_pin = hash_password(pin)
 
-        account = Account(balance=balance, type=account_type, pin=hashed_pin)
+        #man ezafe kardam customer_id va hamchnin , 
+        account = Account(balance=balance, type=account_type, pin=hashed_pin , customer_id = customer_id)
 
         self.session.add(account)
         self.session.commit()
@@ -154,6 +161,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
