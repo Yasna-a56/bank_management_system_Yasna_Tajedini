@@ -74,3 +74,4 @@ class Transaction(Base):
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
 
+
