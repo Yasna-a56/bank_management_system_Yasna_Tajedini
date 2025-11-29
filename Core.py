@@ -147,6 +147,9 @@ class AdminPanel:
         account_from = self.session.get(Account, from_account_id)
         account_to = self.session.get(Account, to_account_id)
 
+        if not account_from or not account_to:
+            raise Exception("One of the accounts not found!")
+            
         if amount <= 0:
             raise Exception("Amount must be positive!")
 
@@ -187,6 +190,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
