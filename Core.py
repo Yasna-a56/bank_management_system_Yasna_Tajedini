@@ -31,6 +31,9 @@ baz harkoja ag soal dashtdi begid hatman
 
 
 Yasna: salam, taghirat ro emal kardam
+
+APM: Salam besiar awli ahsant , tamame tavabe dorost hastand , say konid baraye zibaee dakheel har function
+ye description ham benevisid
 '''
 
 
@@ -197,4 +200,5 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
