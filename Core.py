@@ -64,7 +64,8 @@ class AdminPanel:
             print(f'Customer with id {customer_id} not found!')
             raise Exception(f'Customer with id {customer_id} not found!')
 
-        print(generate_card_number())
+        card_number = generate_card_number()
+        print(card_number)
 
         #inja generate_card_number() 
         #bayad baid zakhire she tooye ye variable bad biad bere too Account
@@ -72,7 +73,8 @@ class AdminPanel:
         hashed_pin = hash_password(pin)
 
         #man ezafe kardam customer_id va hamchnin , 
-        account = Account(balance=balance, type=account_type, pin=hashed_pin , customer_id = customer_id)
+        account = Account(balance=balance, type=account_type, pin=hashed_pin ,
+                          customer_id = customer_id, card_number=card_number)
 
         self.session.add(account)
         self.session.commit()
@@ -190,6 +192,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
