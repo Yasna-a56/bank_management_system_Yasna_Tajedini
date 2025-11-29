@@ -28,6 +28,9 @@ tabeye show_transaction() shoma bayad tooye deposit() withdraw() bayad y data va
 bad to show_transaction() oon dataharo neshon bdid
 
 baz harkoja ag soal dashtdi begid hatman
+
+
+Yasna: salam, taghirat ro emal kardam
 '''
 
 
@@ -194,3 +197,4 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
