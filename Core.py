@@ -63,13 +63,15 @@ class AdminPanel:
         if not customer:
             print(f'Customer with id {customer_id} not found!')
             raise Exception(f'Customer with id {customer_id} not found!')
-
+            
+        # card number
         card_number = generate_card_number()
         print(card_number)
 
         #inja generate_card_number() 
         #bayad baid zakhire she tooye ye variable bad biad bere too Account
         
+        # pin
         hashed_pin = hash_password(pin)
 
         #man ezafe kardam customer_id va hamchnin , 
@@ -192,6 +194,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
