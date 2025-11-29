@@ -194,14 +194,3 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
-
-
-
-
-
-
-
-
-
-
-
