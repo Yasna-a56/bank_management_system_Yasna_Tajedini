@@ -46,7 +46,7 @@ class Account(Base):
     balance = Column(Float, default=0.0)  # mojodi , 00
     type = Column(String, default="standard")  # 'standard', 'foreign', 'crypto'
     pin = Column(String, nullable=False)  # pin kodom account ro khod kon
-
+    card_number = Column(String, unique=True, nullable=False)
     customer_id = Column(Integer, ForeignKey("customers.id"))
 
     #-------relationships-------
@@ -73,5 +73,6 @@ class Transaction(Base):
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
+
 
 
