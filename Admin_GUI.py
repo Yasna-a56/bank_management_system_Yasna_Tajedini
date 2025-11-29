@@ -2,9 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from Core import AdminPanel
 
-
 color = "#BFEFFF"
-
 class AdminGUI:
 
     def __init__(self, bank_system):
@@ -44,3 +42,4 @@ class AdminGUI:
 
 
 app = AdminGUI(None)
+
