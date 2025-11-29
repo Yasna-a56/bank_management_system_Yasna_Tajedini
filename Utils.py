@@ -1,5 +1,6 @@
 import hashlib
 import random
+import numpy as np
 
 def hash_password(password):
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
@@ -12,7 +13,9 @@ def check_password(hashed_password,plain_password):
     else:
         return False
 
+
 def generate_card_number():   
     digits = np.random.randint(0,10,16)
     card_number = ''.join(digits.astype(str))
     return card_number
+
