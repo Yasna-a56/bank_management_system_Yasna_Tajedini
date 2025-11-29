@@ -12,15 +12,14 @@ moafagh abshid
 
 
 Yasna: mamnonam
-
 '''
-
-
 
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from Database import Base
+
+
 
 
 #-------Customers-------
@@ -39,6 +38,10 @@ class Customer(Base):
     accounts = relationship("Account", back_populates="customers")
     transactions = relationship("Transaction", back_populates="customers")
 
+
+
+
+
 #-------Accounts-------
 class Account(Base):
     __tablename__ = "accounts"
@@ -52,6 +55,11 @@ class Account(Base):
     #-------relationships-------
     customers = relationship("Customer", back_populates="accounts")
     transactions = relationship("Transaction", back_populates="accounts")
+
+
+
+
+
 
 #-------Transactions-------
 class Transaction(Base):
@@ -73,6 +81,4 @@ class Transaction(Base):
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
-
-
 
