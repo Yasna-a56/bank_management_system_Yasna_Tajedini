@@ -103,6 +103,14 @@ class AdminPanel:
 
         account.balance += amount
 
+        # Transaction Recording
+        transaction = Transaction(amount=amount,
+                                  type="deposit",
+                                  description="Deposit into account",
+                                  customer_id=account.customer_id,
+                                  account_id=account.id)
+
+        self.session.add(transaction)
         self.session.commit()
         return account
 
@@ -121,6 +129,14 @@ class AdminPanel:
 
         balance -= amount
 
+        # Transaction Recording
+        transaction = Transaction(amount=amount,
+                                  type="withdraw",
+                                  description="Withdraw from account",
+                                  customer_id=account.customer_id,
+                                  account_id=account.id)
+
+        self.session.add(transaction)
         self.session.commit()
 
         return account
@@ -128,8 +144,8 @@ class AdminPanel:
 
 
     def transfer(self,from_account_id,to_account_id,amount):
-        account_from = self.session.get(Transaction, from_account_id)
-        account_to = self.session.get(Transaction, to_account_id)
+        account_from = self.session.get(Account, from_account_id)
+        account_to = self.session.get(Account, to_account_id)
 
         if amount <= 0:
             raise Exception("Amount must be positive!")
@@ -140,6 +156,16 @@ class AdminPanel:
         account_from.balance -= amount
         account_to.balance += amount
 
+        # Transaction Recording
+        transaction = Transaction(amount=amount,
+                                  type="transfer",
+                                  description="Transfer between accounts",
+                                  customer_id=account_from.customer_id,
+                                  account_id=account_from.id,
+                                  from_account_id=account_from.id,
+                                  to_account_id=account_to.id)
+
+        self.session.add(transaction)
         self.session.commit()
 
         return "Transfer completed successfully!"
@@ -161,6 +187,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
