@@ -116,7 +116,7 @@ class AdminPanel:
 
         balance = account.balance
 
-        if amount <= balance:
+        if amount > balance:
             return 'Your account balance is not sufficient'
 
         balance -= amount
@@ -161,6 +161,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
