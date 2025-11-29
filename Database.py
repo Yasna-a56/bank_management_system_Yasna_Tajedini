@@ -10,9 +10,6 @@ Base = declarative_base()
 
 SessionLocal = sessionmaker(bind=engine , autoflash=False, autocommit=False , future=True )
 
-
 # helper function
 def get_session():
     return SessionLocal()
-
-
