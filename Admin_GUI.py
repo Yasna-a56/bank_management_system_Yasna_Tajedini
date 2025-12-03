@@ -15,7 +15,6 @@ class AdminGUI:
         self.show_login_window()
         self.root.mainloop()
 
-    
     def clear(self):
         for widget in self.root.winfo_children():
             widget.destroy()
@@ -42,4 +41,5 @@ class AdminGUI:
 
 
 app = AdminGUI(None)
+
 
