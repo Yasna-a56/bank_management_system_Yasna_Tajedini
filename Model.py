@@ -13,7 +13,6 @@ moafagh abshid
 
 Yasna: mamnonam
 '''
-
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -81,4 +80,5 @@ class Transaction(Base):
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", back_populates="transactions")
+
 
