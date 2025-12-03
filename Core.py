@@ -36,8 +36,6 @@ APM: Salam besiar awli ahsant , tamame tavabe dorost hastand , say konid baraye 
 ye description ham benevisid
 '''
 
-
-
 from Database import get_session
 from Model import Account, Customer, Transaction
 from Utils import hash_password, check_password , generate_card_number
@@ -200,5 +198,6 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
