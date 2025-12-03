@@ -13,7 +13,8 @@ def check_password(hashed_password,plain_password):
     else:
         return False
 
-def generate_card_number():   
+
+def generate_card_number():
     digits = np.random.randint(0,10,16)
     card_number = ''.join(digits.astype(str))
     return card_number
