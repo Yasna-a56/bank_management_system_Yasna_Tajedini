@@ -19,8 +19,6 @@ from datetime import datetime
 from Database import Base
 
 
-
-
 #-------Customers-------
 class Customer(Base):
     __tablename__ = "customers"
@@ -37,10 +35,6 @@ class Customer(Base):
     accounts = relationship("Account", back_populates="customers")
     transactions = relationship("Transaction", back_populates="customers")
 
-
-
-
-
 #-------Accounts-------
 class Account(Base):
     __tablename__ = "accounts"
@@ -53,12 +47,9 @@ class Account(Base):
 
     #-------relationships-------
     customers = relationship("Customer", back_populates="accounts")
-    transactions = relationship("Transaction", back_populates="accounts")
-
-
-
-
-
+    transactions = relationship("Transaction", foreign_keys="Transaction.account_id", back_populates="accounts")
+    sent_transactions = relationship("Transaction", foreign_keys="Transaction.from_account_id", back_populates="from_account")
+    received_transactions = relationship("Transaction", foreign_keys="Transaction.to_account_id", back_populates="to_account")
 
 #-------Transactions-------
 class Transaction(Base):
@@ -79,6 +70,6 @@ class Transaction(Base):
 
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
-    accounts = relationship("Account", back_populates="transactions")
-
-
+    accounts = relationship("Account", foreign_keys=[account_id], back_populates="transactions")
+    from_account = relationship("Account", foreign_keys=[from_account_id], back_populates="sent_transactions")
+    to_account = relationship("Account", foreign_keys=[to_account_id], back_populates="received_transactions")
