@@ -1,25 +1,13 @@
-'''
-Yasna: salam vaqtetoon bekhair
-soal ---> man baraye save kardan Create Customer be moshkel barmikhordam,
-banabarin az chatgpt komak gereftam va goft "from Admin_GUI import AdminGUI" va "admin_panel = AdminPanel()" 
-ro ezafe beshe va be jaye "app = AdminGUI(None)", "app = AdminGUI(admin_panel)" ro ezafe konam ke barname betoone ham ejara 
-va ham create costumer bokone. ba in hal hanooz error mide va be esm File irad migire.
-mitoonid man ro rahnamayee konid??
-
-
-'''
-
-
-
 import tkinter as tk
 from tkinter import messagebox, ttk
 from Core import AdminPanel
-from Admin_GUI import AdminGUI
+
 
 color = "#BFEFFF"
 color_f1 = "#483D8B"
 color_save = "#6495ED"
 color_back = "#DC143C"
+
 
 class AdminGUI:
 
@@ -156,8 +144,6 @@ class AdminGUI:
 
 
 
-admin_panel = AdminPanel()
-app = AdminGUI(admin_panel)
 
 
 
