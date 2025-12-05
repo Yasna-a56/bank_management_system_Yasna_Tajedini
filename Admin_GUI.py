@@ -1,6 +1,12 @@
 '''
+
 Yasna: salam ostad, vaqt bekhair
 ta injaye project drost pish raftam?
+
+
+
+
+
 '''
 
 import tkinter as tk
@@ -298,6 +304,7 @@ class AdminGUI:
 
     def open_transaction(self):
         pass
+
 
 
 
