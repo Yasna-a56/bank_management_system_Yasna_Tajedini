@@ -114,13 +114,13 @@ class AdminGUI:
             entry.insert(0, text)
             entry.config(fg="grey")
 
-            # before focus
+            # after focus
             def on_focus_in(event):
                 if entry.get() == text:
                     entry.delete(0, tk.END)
                     entry.config(fg="black")
 
-            # after focus and writing
+            # before focus and writing
             def on_focus_out(event):
                 if entry.get() == "":
                     entry.insert(0, text)
@@ -234,13 +234,13 @@ class AdminGUI:
             entry.insert(0, text)
             entry.config(fg="grey")
 
-            # before focus
+            # after focus
             def on_focus_in(event):
                 if entry.get() == text:
                     entry.delete(0, tk.END)
                     entry.config(fg="black")
 
-            # after focus and writing
+            # before focus and writing
             def on_focus_out(event):
                 if entry.get() == "":
                     entry.insert(0, text)
@@ -304,6 +304,7 @@ class AdminGUI:
 
     def open_transaction(self):
         pass
+
 
 
 
