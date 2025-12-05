@@ -41,11 +41,9 @@ from Model import Account, Customer, Transaction
 from Utils import hash_password, check_password , generate_card_number
 import numpy as np
 
-
 class AdminPanel:
     def __init__(self):
         self.session = get_session()
-
 
 
     def create_customer(self, name, email, age=None, phone=None, address=None):
@@ -198,6 +196,3 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
-
-
-
