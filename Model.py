@@ -18,7 +18,6 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from Database import Base
 
-
 #-------Customers-------
 class Customer(Base):
     __tablename__ = "customers"
@@ -59,17 +58,16 @@ class Transaction(Base):
     type = Column(String, nullable=False) # transfer --> deposit, withdraw
     description = Column(String, default="")
     created_at = Column(DateTime, default=datetime.utcnow)
-
     customer_id = Column(Integer, ForeignKey("customers.id"))
     account_id = Column(Integer, ForeignKey("accounts.id"))
-
+          
     #---transfer accounts---
-
     from_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
     to_account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
-
+          
     # -------relationships-------
     customers = relationship("Customer", back_populates="transactions")
     accounts = relationship("Account", foreign_keys=[account_id], back_populates="transactions")
     from_account = relationship("Account", foreign_keys=[from_account_id], back_populates="sent_transactions")
     to_account = relationship("Account", foreign_keys=[to_account_id], back_populates="received_transactions")
+
