@@ -27,8 +27,6 @@ class AdminGUI:
         for widget in self.root.winfo_children():
             widget.destroy()
 
-
-
     def show_login_window(self):
         self.clear()
         tk.Label(self.root, text="Admin Login", font=("Arial", 25, "bold"), bg=color, fg="#F08080").pack(pady=70)
@@ -39,7 +37,6 @@ class AdminGUI:
         self.password_entry = tk.Entry(self.root, show="*", justify="center")
         self.password_entry.place(x=180, y=279)
         tk.Button(self.root, text="Login", bg="blue", fg="white", command=self.login).pack(pady=139)
-
 
 
     def login(self):
@@ -67,7 +64,6 @@ class AdminGUI:
         tk.Button(self.root, text="Transactions", width=20, command=self.open_transactions).pack(pady=10)
 
         tk.Button(self.root, text="Logout", width=20, command=self.show_login_window).pack(pady=30)
-
 
 
     def open_create_customer(self):
@@ -137,10 +133,10 @@ class AdminGUI:
             except Exception as e:
                 messagebox.showerror("Error", str(e))
 
-
         # Submit Button
         tk.Button(self.root, text="Create", command=submit, bg=color_save).place(x=220, y=360, width=80)
         tk.Button(self.root, text="Back", command=self.show_dashboard, bg=color_back).place(x=90, y=360, width=80)
+
 
 
 
