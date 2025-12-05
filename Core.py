@@ -54,6 +54,9 @@ class AdminPanel:
 
 
     def create_customer(self, name, email, age=None, phone=None, address=None):
+        """
+        Create a new customer and save it to the database.
+        """
 
         customer = Customer(name = name, email = email,
                             age = age, phone = phone, address = address)   #optional items
@@ -67,6 +70,10 @@ class AdminPanel:
 
 
     def create_account(self, customer_id, account_type, balance, pin):
+        """
+        Create a new account and save it to the database.
+        """
+        
         customer=self.session.get(Customer, customer_id)
 
         if not customer:
@@ -203,4 +210,5 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
