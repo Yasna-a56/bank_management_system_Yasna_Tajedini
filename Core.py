@@ -105,6 +105,10 @@ class AdminPanel:
 
 
     def show_balance(self,account_id):
+        """
+        Retrieve and return the balance of a specific account.
+        """
+        
         account=self.session.get(Account,account_id)
 
         if not account:
@@ -213,6 +217,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
