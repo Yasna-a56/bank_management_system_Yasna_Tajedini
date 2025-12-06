@@ -1,7 +1,7 @@
 '''
 
 Yasna: salam ostad, vaqt bekhair
-ta injaye project drost pish raftam?
+ta injaye project drost pish raftam va ghabele ghabool hast?
 
 
 
@@ -12,8 +12,9 @@ ta injaye project drost pish raftam?
 import tkinter as tk
 from tkinter import messagebox, ttk
 from Model import Customer, Account, Transaction
-from requests import session
 from Core import AdminPanel
+from Utils import add_placeholder
+from sqlalchemy import func
 
 
 color = "#BFEFFF"
@@ -21,6 +22,8 @@ color_f1 = "#483D8B"
 color_save = "#6495ED"
 color_back = "#DC143C"
 color_search = "#68228B"
+color_select = "#458B74"
+color_back_dashboard = "#B22222"
 
 
 class AdminGUI:
@@ -100,7 +103,7 @@ class AdminGUI:
 
         tk.Label(self.root, text="Create Customer", font=("arial",21,"bold"), bg=color, fg=color_f1).pack(pady=20)
 
-        # Obligatory
+        #------Mandatory Fields------
         tk.Label(self.root, text="Name:", font=("arial",15,"bold"), bg= color, fg="blue").place(x=90,y=90)
         name_ent = tk.Entry(self.root, justify="center")
         name_ent.place(x= 220, y=95, width=200, height=21)
@@ -109,26 +112,7 @@ class AdminGUI:
         email_ent = tk.Entry(self.root, justify="center")
         email_ent.place(x= 220, y=140, width=200, height=21)
 
-        #optional choices
-        def add_placeholder(entry, text):
-            entry.insert(0, text)
-            entry.config(fg="grey")
-
-            # after focus
-            def on_focus_in(event):
-                if entry.get() == text:
-                    entry.delete(0, tk.END)
-                    entry.config(fg="black")
-
-            # before focus and writing
-            def on_focus_out(event):
-                if entry.get() == "":
-                    entry.insert(0, text)
-                    entry.config(fg="grey")
-
-            entry.bind("<FocusIn>", on_focus_in)
-            entry.bind("<FocusOut>", on_focus_out)
-
+        #------Optional Field------
         tk.Label(self.root, text="Age:", font=("arial", 15, "bold"), bg=color, fg="blue").place(x=90, y=180)
         age_ent = tk.Entry(self.root, justify="center")
         age_ent.place(x=220, y=185, width=200, height=21)
@@ -144,6 +128,7 @@ class AdminGUI:
         address_ent.place(x=220, y=275, width=200, height=21)
         add_placeholder(address_ent, "Optional")
 
+        #------Submit Function------------------------------------------------------
         def submit():
             name = name_ent.get()
             email = email_ent.get()
@@ -163,7 +148,7 @@ class AdminGUI:
                 messagebox.showerror("Error", str(e))
 
 
-        # Submit Button
+        #------Button------
         tk.Button(self.root, text="Create", command=submit, bg=color_save).place(x=220, y=360, width=80)
         tk.Button(self.root, text="Back", command=self.show_dashboard, bg=color_back).place(x=90, y=360, width=80)
 
@@ -208,7 +193,7 @@ class AdminGUI:
             else:
                 result_list.insert(tk.END, "No matching customer found!")
 
-
+        #------Search Button------
         tk.Button(self.root, text="Search", command=search_customer, bg=color_search, fg="white").place(x=160, y=350, width=80)
 
         #---------------------------Create Account---------------------------
@@ -229,26 +214,6 @@ class AdminGUI:
         account_type_combo.place(x=630, y=117, width=200, height=21)
 
         #------Initial Balance------
-
-        def add_placeholder(entry, text):
-            entry.insert(0, text)
-            entry.config(fg="grey")
-
-            # after focus
-            def on_focus_in(event):
-                if entry.get() == text:
-                    entry.delete(0, tk.END)
-                    entry.config(fg="black")
-
-            # before focus and writing
-            def on_focus_out(event):
-                if entry.get() == "":
-                    entry.insert(0, text)
-                    entry.config(fg="grey")
-
-            entry.bind("<FocusIn>", on_focus_in)
-            entry.bind("<FocusOut>", on_focus_out)
-
         tk.Label(self.root, text="Initial Balance:", font=("arial", 13, "bold"), bg=color, fg="blue").place(x=510, y=155)
         balance_ent = tk.Entry(self.root, justify="center")
         balance_ent.place(x=630, y=157, width=200, height=21)
@@ -276,18 +241,107 @@ class AdminGUI:
                 messagebox.showerror("Error", str(e))
 
 
-
         def back_to_dashboard():
             self.reset_window_size()
             self.show_dashboard()
 
-
+        #------Button------
         tk.Button(self.root, text="Create", command=submit, bg=color_save).place(x=550, y=350, width=80)
         tk.Button(self.root, text="Back", command=back_to_dashboard, bg=color_back).place(x=660, y=350, width=80)
 
 
-    def open_check_balance(self):
-        pass
+    def open_check_balance(self, step=1, customer=None, account=None):
+        self.clear()
+
+        #--------Step:1 | Search / Retrieve Customer---------------------------
+        if step == 1:
+            self.set_window_size(500, 300)
+
+            tk.Label(self.root, text="Search Customer", font=("arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=10)
+
+            tk.Label(self.root, text="Name:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=75)
+            name_ent = tk.Entry(self.root, justify="center")
+            name_ent.place(x=150, y=80, width=200, height=21)
+
+            tk.Label(self.root, text="Email:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=115)
+            email_ent = tk.Entry(self.root, justify="center")
+            email_ent.place(x=150, y=120, width=200, height=21)
+
+            # ------Search Funktion------
+            def search():
+                name = name_ent.get().strip()
+                email = email_ent.get().strip()
+
+                if not name or not email:
+                    messagebox.showwarning("Warning", "Please enter both name and email.")
+                    return
+
+                session = self.bank.session
+
+                cust = session.query(Customer).filter(
+                    func.lower(Customer.name) == name.strip().lower(),
+                    func.lower(Customer.email) == email.strip().lower()
+                ).first()
+
+                if not cust:
+                    messagebox.showerror("Error", "Customer not found!")
+                    return
+
+                # open the second page
+                self.open_check_balance(step=2, customer=cust)
+
+            # ------Button------
+            tk.Button(self.root, text="Search", command=search, bg=color_search, fg="white").place(x=230, y=180, width=80)
+            tk.Button(self.root, text="Back", command=self.show_dashboard, bg=color_back).place(x=90, y=180, width=80)
+
+            return
+
+        # --------Step:2 | Show Customer's Accounts---------------------------
+        if step == 2:
+            self.set_window_size(500, 490)
+
+            tk.Label(self.root, text=f"Accounts of {customer.name}", font=("Arial", 18, "bold"), fg=color_f1, bg= color).pack(pady=10)
+
+            accounts_list = tk.Listbox(self.root)
+            accounts_list.place(x=20, y=60, width=460, height=300)
+
+            #------adding the accounts to the list------
+            for acc in customer.accounts:
+                accounts_list.insert(tk.END, f"{acc.id}  |  {acc.type}  |  Balance: {acc.balance}")
+
+            def select_account():
+                try:
+                    index = accounts_list.curselection()[0]
+                    acc = customer.accounts[index]
+                    # open the third page
+                    self.open_check_balance(step=3, customer=customer, account=acc)
+                except:
+                    messagebox.showerror("Error", "Select an account.")
+
+            # ------Button------
+            tk.Button(self.root, text="Select Account", bg=color_select, fg="white",command=select_account).place(x=220, y=400, width=100)
+            tk.Button(self.root, text="Back", bg=color_back, command=lambda: self.open_check_balance(step=1)).place(x=50, y=400, width=80)
+
+            return
+
+        # --------Step:3 | Show Balance---------------------------
+        if step == 3:
+            self.set_window_size(500, 300)
+
+            tk.Label(self.root, text="Account Balance", font=("Arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=20)
+
+            tk.Label(self.root, text=f"Account ID: {account.id}", font=("Arial", 12, "bold"), bg=color).pack(pady=5)
+
+            tk.Label(self.root, text=f"Type: {account.type}", font=("Arial", 12, "bold"), bg=color).pack(pady=5)
+
+            tk.Label(self.root, text=f"Balance: {account.balance}", font=("Arial", 12, "bold"), fg="forestgreen", bg=color).pack(pady=10)
+
+            # ------Button------
+            tk.Button(self.root, text="Back to Accounts", bg=color_back,
+                      command=lambda: self.open_check_balance(step=2, customer=customer)).pack(pady=15)
+            tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, command=self.show_dashboard, fg="white").pack()
+
+            return
 
 
     def open_deposit(self):
@@ -304,9 +358,5 @@ class AdminGUI:
 
     def open_transaction(self):
         pass
-
-
-
-
 
 
