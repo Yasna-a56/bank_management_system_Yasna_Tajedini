@@ -65,6 +65,9 @@ class AdminPanel:
         self.session.commit()
         print(f'Customer {name} created successfully!')
 
+        new_customer = self.session.query(Customer).filter_by(email=email).first()
+        print("Created Customer:", new_customer)
+
         return customer
 
 
@@ -210,5 +213,6 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
