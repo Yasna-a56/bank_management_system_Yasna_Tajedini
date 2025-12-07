@@ -55,6 +55,82 @@ class AdminGUI:
 
 
 
+    def search_customer_and_select_account(self, next_step_callback, step=1, customer=None):
+        self.clear()
+
+        # --------Step:1 | Search / Retrieve Customer---------------------------
+        if step == 1:
+            self.set_window_size(500, 300)
+
+            tk.Label(self.root, text="Search Customer", font=("arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=10)
+
+            tk.Label(self.root, text="Name:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=75)
+            name_ent = tk.Entry(self.root, justify="center")
+            name_ent.place(x=150, y=80, width=200, height=21)
+
+            tk.Label(self.root, text="Email:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=115)
+            email_ent = tk.Entry(self.root, justify="center")
+            email_ent.place(x=150, y=120, width=200, height=21)
+
+            # ------Search Function------
+            def search():
+                name = name_ent.get().strip()
+                email = email_ent.get().strip()
+                if not name or not email:
+                    messagebox.showwarning("Warning", "Please enter both name and email.")
+                    return
+
+                session = self.bank.session
+
+                cust = session.query(Customer).filter(
+                    func.lower(Customer.name) == name.lower(),
+                    func.lower(Customer.email) == email.lower()
+                ).first()
+
+                if not cust:
+                    messagebox.showerror("Error", "Customer not found!")
+                    return
+
+                # open the second page
+                next_step_callback(step=2, customer=cust)
+
+            # ------Button------
+            tk.Button(self.root, text="Search", command=search, bg=color_search, fg="white").place(x=230, y=180, width=80)
+            tk.Button(self.root, text="Back", command=self.show_dashboard, bg=color_back).place(x=90, y=180, width=80)
+
+            return
+
+        # --------Step:2 | Show Customer's Accounts---------------------------
+        if step == 2:
+            self.set_window_size(500, 490)
+
+            tk.Label(self.root, text=f"Accounts of {customer.name}", font=("Arial", 18, "bold"), fg=color_f1, bg=color).pack(pady=10)
+
+            accounts_list = tk.Listbox(self.root)
+            accounts_list.place(x=20, y=60, width=460, height=300)
+
+            # ------adding the accounts to the list------
+            for acc in customer.accounts:
+                accounts_list.insert(tk.END, f"{acc.id}  |  {acc.type}  |  Balance: {acc.balance}")
+
+            def select_account():
+                try:
+                    index = accounts_list.curselection()[0]
+                    acc = customer.accounts[index]
+                    # open the third page
+                    next_step_callback(step=3, customer=customer, account=acc)
+                except:
+                    messagebox.showerror("Error", "Select an account.")
+
+            # ------Button------
+            tk.Button(self.root, text="Select Account", bg=color_select, fg="white", command=select_account).place(x=220, y=400, width=100)
+            tk.Button(self.root, text="Back", bg=color_back,
+                      command=lambda: self.search_customer_and_select_account(next_step_callback, step=1)).place(x=50,y=400,width=80)
+
+            return
+
+
+
     def show_login_window(self):
         self.clear()
         tk.Label(self.root, text="Admin Login", font=("Arial", 25, "bold"), bg=color, fg="#F08080").pack(pady=70)
@@ -251,76 +327,9 @@ class AdminGUI:
 
 
     def open_check_balance(self, step=1, customer=None, account=None):
-        self.clear()
-
-        #--------Step:1 | Search / Retrieve Customer---------------------------
-        if step == 1:
-            self.set_window_size(500, 300)
-
-            tk.Label(self.root, text="Search Customer", font=("arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=10)
-
-            tk.Label(self.root, text="Name:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=75)
-            name_ent = tk.Entry(self.root, justify="center")
-            name_ent.place(x=150, y=80, width=200, height=21)
-
-            tk.Label(self.root, text="Email:", font=("arial", 12, "bold"), bg=color, fg="blue").place(x=90, y=115)
-            email_ent = tk.Entry(self.root, justify="center")
-            email_ent.place(x=150, y=120, width=200, height=21)
-
-            # ------Search Funktion------
-            def search():
-                name = name_ent.get().strip()
-                email = email_ent.get().strip()
-
-                if not name or not email:
-                    messagebox.showwarning("Warning", "Please enter both name and email.")
-                    return
-
-                session = self.bank.session
-
-                cust = session.query(Customer).filter(
-                    func.lower(Customer.name) == name.strip().lower(),
-                    func.lower(Customer.email) == email.strip().lower()
-                ).first()
-
-                if not cust:
-                    messagebox.showerror("Error", "Customer not found!")
-                    return
-
-                # open the second page
-                self.open_check_balance(step=2, customer=cust)
-
-            # ------Button------
-            tk.Button(self.root, text="Search", command=search, bg=color_search, fg="white").place(x=230, y=180, width=80)
-            tk.Button(self.root, text="Back", command=self.show_dashboard, bg=color_back).place(x=90, y=180, width=80)
-
-            return
-
-        # --------Step:2 | Show Customer's Accounts---------------------------
-        if step == 2:
-            self.set_window_size(500, 490)
-
-            tk.Label(self.root, text=f"Accounts of {customer.name}", font=("Arial", 18, "bold"), fg=color_f1, bg= color).pack(pady=10)
-
-            accounts_list = tk.Listbox(self.root)
-            accounts_list.place(x=20, y=60, width=460, height=300)
-
-            #------adding the accounts to the list------
-            for acc in customer.accounts:
-                accounts_list.insert(tk.END, f"{acc.id}  |  {acc.type}  |  Balance: {acc.balance}")
-
-            def select_account():
-                try:
-                    index = accounts_list.curselection()[0]
-                    acc = customer.accounts[index]
-                    # open the third page
-                    self.open_check_balance(step=3, customer=customer, account=acc)
-                except:
-                    messagebox.showerror("Error", "Select an account.")
-
-            # ------Button------
-            tk.Button(self.root, text="Select Account", bg=color_select, fg="white",command=select_account).place(x=220, y=400, width=100)
-            tk.Button(self.root, text="Back", bg=color_back, command=lambda: self.open_check_balance(step=1)).place(x=50, y=400, width=80)
+        if step < 3:
+            # --------Step:1,2 | search_customer_and_select_account---------------------------
+            self.search_customer_and_select_account(next_step_callback=self.open_check_balance, step=step, customer=customer)
 
             return
 
@@ -344,12 +353,85 @@ class AdminGUI:
             return
 
 
-    def open_deposit(self):
-        pass
+    def open_deposit(self, step=1, customer=None, account=None):
+        if step < 3:
+            # --------Step:1,2 | search_customer_and_select_account---------------------------
+            self.search_customer_and_select_account(next_step_callback=self.open_deposit, step=step, customer=customer)
+
+            return
+
+        # --------Step:3 | Deposit---------------------------
+        self.clear()
+        self.set_window_size(500, 300)
+
+        tk.Label(self.root, text=f"Deposit to Account with ID: {account.id}", font=("Arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=20)
+
+        tk.Label(self.root, text=f"Current Balance: {account.balance}", font=("Arial", 12, "bold"), fg="chartreuse4", bg=color).pack(pady=5)
+
+        tk.Label(self.root, text="Deposit Amount:", font=("Arial", 12, "bold"), bg=color, fg="blue").pack(pady=10)
+        amount_ent = tk.Entry(self.root, justify="center")
+        amount_ent.pack()
+
+        def submit_deposit():
+            try:
+                amount = float(amount_ent.get())
+                if amount <= 0:
+                    raise ValueError("Amount must be positive")
+
+                self.bank.deposit(account.id, amount)
+                messagebox.showinfo("Success", f"{amount} deposited successfully!")
+                self.show_dashboard()
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+
+        tk.Button(self.root, text="Deposit", command=submit_deposit, bg="#008B8B", width=8).pack(pady=9)
+        tk.Button(self.root, text="Back", command=lambda: self.open_deposit(step=2, customer=customer), bg=color_back, width=8).pack(pady=5)
+        tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, command=self.show_dashboard, fg="white").pack(pady=5)
+
+        return
 
 
-    def open_withdraw(self):
-        pass
+    def open_withdraw(self, step=1, customer=None, account=None):
+        if step < 3:
+            # --------Step:1,2 | search_customer_and_select_account---------------------------
+            self.search_customer_and_select_account(next_step_callback=self.open_withdraw, step=step, customer=customer)
+
+            return
+
+        # --------Step:3 | Withdraw---------------------------
+        self.clear()
+        self.set_window_size(500, 300)
+
+        tk.Label(self.root, text=f"Withdraw from Account ID: {account.id}", font=("Arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=20)
+
+        tk.Label(self.root, text=f"Current Balance: {account.balance}", font=("Arial", 12, "bold"), fg="chartreuse4", bg=color).pack(pady=5)
+
+        tk.Label(self.root, text="Withdraw Amount:", font=("Arial", 12, "bold"), bg=color, fg="blue").pack(pady=10)
+        amount_ent = tk.Entry(self.root, justify="center")
+        amount_ent.pack()
+
+        def submit_withdraw():
+            try:
+                amount = float(amount_ent.get())
+                if amount <= 0:
+                    raise ValueError("Amount must be positive")
+
+                # Check balance
+                if amount > account.balance:
+                    raise ValueError("Insufficient balance!")
+
+                # Perform withdrawal
+                self.bank.withdraw(account.id, amount)
+                messagebox.showinfo("Success", f"{amount} withdrawn successfully!")
+                self.show_dashboard()
+            except Exception as e:
+                messagebox.showerror("Error", str(e))
+
+        tk.Button(self.root, text="Withdraw", command=submit_withdraw, bg="#008B8B", width=8).pack(pady=9)
+        tk.Button(self.root, text="Back", command=lambda: self.open_withdraw(step=2, customer=customer), bg=color_back, width=8).pack(pady=5)
+        tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, command=self.show_dashboard, fg="white").pack(pady=5)
+
+        return
 
 
     def open_transfer(self):
