@@ -123,7 +123,12 @@ class AdminPanel:
 
 
     def deposit(self,account_id,amount):
+        """
+        Perform a deposit operation on a specific bank account.
+        """
+        
         account=self.session.get(Account,account_id)
+        
         if not account:
             print(f'Account with id {account_id} not found!')
             raise Exception(f'Account with id {account_id} not found')
@@ -144,7 +149,12 @@ class AdminPanel:
 
 
     def withdraw(self,account_id,amount):
+        """
+        Perform a withdrawal operation from a specific bank account.
+        """
+        
         account=self.session.get(Account,account_id)
+        
         if not account:
             print(f'Account with id {account_id} not found!')
             raise Exception(f'Account with id {account_id} not found!')
@@ -217,6 +227,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
