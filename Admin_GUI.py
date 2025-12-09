@@ -327,10 +327,10 @@ class AdminGUI:
 
 
     def open_check_balance(self, step=1, customer=None, account=None):
+        self.clear()
         if step < 3:
             # --------Step:1,2 | search_customer_and_select_account---------------------------
             self.search_customer_and_select_account(next_step_callback=self.open_check_balance, step=step, customer=customer)
-
             return
 
         # --------Step:3 | Show Balance---------------------------
@@ -384,6 +384,7 @@ class AdminGUI:
             except Exception as e:
                 messagebox.showerror("Error", str(e))
 
+        # ------Button------
         tk.Button(self.root, text="Deposit", command=submit_deposit, bg="#008B8B", width=8).pack(pady=9)
         tk.Button(self.root, text="Back", command=lambda: self.open_deposit(step=2, customer=customer), bg=color_back, width=8).pack(pady=5)
         tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, command=self.show_dashboard, fg="white").pack(pady=5)
@@ -400,7 +401,7 @@ class AdminGUI:
 
         # --------Step:3 | Withdraw---------------------------
         self.clear()
-        self.set_window_size(500, 300)
+        self.set_window_size(500, 500)
 
         tk.Label(self.root, text=f"Withdraw from Account ID: {account.id}", font=("Arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=20)
 
@@ -427,6 +428,7 @@ class AdminGUI:
             except Exception as e:
                 messagebox.showerror("Error", str(e))
 
+        # ------Button------
         tk.Button(self.root, text="Withdraw", command=submit_withdraw, bg="#008B8B", width=8).pack(pady=9)
         tk.Button(self.root, text="Back", command=lambda: self.open_withdraw(step=2, customer=customer), bg=color_back, width=8).pack(pady=5)
         tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, command=self.show_dashboard, fg="white").pack(pady=5)
@@ -434,8 +436,95 @@ class AdminGUI:
         return
 
 
-    def open_transfer(self):
-        pass
+    def open_transfer(self, step=1, customer=None, from_account=None, to_account=None):
+        if step < 3:
+            # --------Step:1,2 | search_customer_and_select_account---------------------------
+            def _callback(step, customer, account=None, **kw):
+                return self.open_transfer(step=step, customer=customer, from_account=account)
+
+            self.search_customer_and_select_account(next_step_callback=_callback, step=step,customer=customer)
+            return
+
+        # --------Step:3 | Select 'TO' Account---------------------------
+        if step == 3 and from_account and not to_account:
+            self.clear()
+            self.set_window_size(500, 460)
+
+            tk.Label(self.root, text=f"Select Destination Account", font=("arial", 21, "bold"), bg=color, fg=color_f1).pack(pady=10)
+
+            tk.Label(self.root, text=f"Source Account: {from_account.id}  | Balance: {from_account.balance}", font=("arial", 12, "bold"), fg="blue", bg=color).pack(pady=5)
+
+            tk.Label(self.root, text="Choose an account to transfer TO", font=("arial", 12,"bold"), bg=color, fg="black").pack(pady=10)
+
+            # Frame for Listbox
+            frame = tk.Frame(self.root)
+            frame.pack(pady=10)
+
+            dest_accounts = [acc for acc in customer.accounts if acc.id != from_account.id]
+            accounts_list = tk.Listbox(frame, height=len(dest_accounts), width=55, justify="center")
+            accounts_list.pack()
+
+            # List of destination accounts
+            self.to_account_candidates = []
+
+            for acc in customer.accounts:
+                if acc.id != from_account.id:
+                    accounts_list.insert(tk.END, f"{acc.id} | {acc.type} | Balance: {acc.balance}")
+
+                    # Store the true object for safe indexing
+                    self.to_account_candidates.append(acc)
+
+            def select_destination():
+                try:
+                    index = accounts_list.curselection()[0]
+                    to_acc = self.to_account_candidates[index]
+
+                    self.open_transfer(step=4, customer=customer, from_account=from_account, to_account=to_acc)
+
+                except:
+                    messagebox.showerror("Error", "Please select a destination account.")
+
+            # ------Button------
+            tk.Button(self.root, text="Select", bg=color_select, fg="white", width=8, command=select_destination).pack(pady=5)
+            tk.Button(self.root, text="Back", bg=color_back, width=8,
+                      command=lambda: self.open_transfer(step=2, customer=customer)).pack(pady=5)
+
+            return
+
+        # -------- Step:4 | Enter Transfer Amount and Execute ---------------------------
+        if step == 4 and from_account and to_account:
+            self.clear()
+            self.set_window_size(500, 333)
+
+            tk.Label(self.root, text=f"Transfer from {from_account.id} to {to_account.id}", font=("arial", 21, "bold"),
+                     bg=color, fg=color_f1).pack(pady=20)
+            tk.Label(self.root, text=f"Source Balance: {from_account.balance}", font=("arial", 12, "bold"),
+                     fg="chartreuse4", bg=color).pack(pady=5)
+
+            tk.Label(self.root, text="Transfer Amount:", font=("Arial", 12, "bold"), bg=color, fg="blue").pack(pady=10)
+            amount_ent = tk.Entry(self.root, justify="center")
+            amount_ent.pack()
+
+            def submit_transfer():
+                try:
+                    amount = float(amount_ent.get())
+                    if amount <= 0:
+                        raise ValueError("Amount must be positive")
+                    if amount > from_account.balance:
+                        raise ValueError("Insufficient balance!")
+
+                    # Transfer--------------
+                    self.bank.transfer(from_account.id, to_account.id, amount)
+                    messagebox.showinfo("Success", f"{amount} transferred successfully!")
+                    self.show_dashboard()
+                except Exception as e:
+                    messagebox.showerror("Error", str(e))
+
+            tk.Button(self.root, text="Transfer", command=submit_transfer, bg="#008B8B", width=8).pack(pady=9)
+            tk.Button(self.root, text="Back",
+                      command=lambda: self.open_transfer(step=3, customer=customer, from_account=from_account),
+                      bg=color_back, width=8).pack(pady=5)
+            tk.Button(self.root, text="Dashboard", bg=color_back_dashboard, fg="white", command=self.show_dashboard).pack(pady=5)
 
 
     def open_transaction(self):
