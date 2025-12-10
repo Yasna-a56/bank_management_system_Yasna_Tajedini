@@ -39,6 +39,7 @@ ye description ham benevisid
 Yasna: salam, bale descriptions ro daram ba tartib GUI be Core ezafe mikonam.
 
 
+APM : besiar awli
 
 
 '''
@@ -227,6 +228,7 @@ class AdminPanel:
             print(f"{t.id} | {t.type} | {t.amount} | {t.created_at}")
 
         return transactions
+
 
 
 
