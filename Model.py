@@ -70,4 +70,3 @@ class Transaction(Base):
     accounts = relationship("Account", foreign_keys=[account_id], back_populates="transactions")
     from_account = relationship("Account", foreign_keys=[from_account_id], back_populates="sent_transactions")
     to_account = relationship("Account", foreign_keys=[to_account_id], back_populates="received_transactions")
-
