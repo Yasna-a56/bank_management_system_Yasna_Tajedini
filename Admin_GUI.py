@@ -4,7 +4,8 @@ Yasna: salam ostad, vaqt bekhair
 ta injaye project drost pish raftam va ghabele ghabool hast?
 
 
-
+APM: salam bale kheyli awli ahsant
+fght b README.md ba gpt ya komake khodeton description khob ezafe konid for use later
 
 
 '''
@@ -529,5 +530,6 @@ class AdminGUI:
 
     def open_transaction(self):
         pass
+
 
 
