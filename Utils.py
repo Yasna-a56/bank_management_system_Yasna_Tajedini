@@ -40,3 +40,4 @@ def add_placeholder(entry, text):
 
     entry.bind("<FocusIn>", on_focus_in)
     entry.bind("<FocusOut>", on_focus_out)
+
