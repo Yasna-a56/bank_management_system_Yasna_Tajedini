@@ -46,7 +46,7 @@ Install required libraries via pip:
 pip install sqlalchemy numpy
 
 ----
-# How to Use
+# How To Use
 
 
 1. Run the application by executing `Main.py`.
