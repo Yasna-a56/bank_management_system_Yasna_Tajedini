@@ -47,14 +47,9 @@ pip install sqlalchemy numpy
 
 
 
-## Table of Contents
-- [Description](#description)
-- [Structure](#structure)
-- [Requirements](#requirements)
-- [How To Use](#how-to-use)
 
 ----
-<h2 id="how-to-use">How To Use</h2>
+# How To Use
 
 
 1. Run the application by executing `Main.py`.
