@@ -7,8 +7,7 @@ ta injaye project drost pish raftam va ghabele ghabool hast?
 APM: salam bale kheyli awli ahsant
 fght b README.md ba gpt ya komake khodeton description khob ezafe konid for use later
 
-Yasna: salam bale, ezafe karkam vali ye moshkeli  ke pish omade ine ke 
-"How To Use" az halat bold dar umad va "Struktur" posht sar ham gharar migiran rooye safhe
+Yasna: salam bale, ezafe karkam, man ta farda proje ro dar sorat takmili az nazar shoma baraye moasese email mikonam
 
 
 '''
@@ -621,4 +620,5 @@ class AdminGUI:
                 command=self.show_dashboard).pack(pady=5)
 
             return
+
 
