@@ -21,7 +21,7 @@ It allows an admin to manage customers, bank accounts, and transactions using a 
 
 ---
 # Structure
-
+```
 Bank_Management/
 │
 ├── Core/
@@ -35,7 +35,7 @@ Bank_Management/
 ├── Utils.py                 # Helper functions (hashing, placeholders, etc.)
 ├── Main.py                  # Application entry point
 └── README.md
-
+```
 ----
 # Requirements
 
