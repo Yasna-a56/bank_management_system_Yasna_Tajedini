@@ -8,7 +8,7 @@ APM: salam bale kheyli awli ahsant
 fght b README.md ba gpt ya komake khodeton description khob ezafe konid for use later
 
 
-Yasna: salam bale, ezafe karkam, man ta farda proje ro dar sorat takmili az nazar shoma baraye moasese email mikonam
+Yasna: salam bale, ezafe karkam, man farda proje ro dar sorat takmili az nazar shoma baraye moasese email mikonam
 
 
 '''
@@ -621,6 +621,7 @@ class AdminGUI:
                 command=self.show_dashboard).pack(pady=5)
 
             return
+
 
 
 
