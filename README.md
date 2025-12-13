@@ -21,21 +21,24 @@ It allows an admin to manage customers, bank accounts, and transactions using a 
 
 ---
 # Structure
-```
+
+```text
 Bank_Management/
 │
 ├── Core/
-│   └── AdminPanel.py        # Business logic and core operations
+│   └── AdminPanel.py      # Core business logic: customer, account, transaction management
 │
 ├── Model/
-│   └── models.py            # Database models (Customer, Account, Transaction)
+│   └── models.py          # Database models: Customer, Account, Transaction
 │
-├── Admin_GUI.py             # Graphical User Interface (Tkinter)
-├── Database.py              # Database setup and session management
-├── Utils.py                 # Helper functions (hashing, placeholders, etc.)
-├── Main.py                  # Application entry point
-└── README.md
+├── Admin_GUI.py           # Graphical User Interface using Tkinter for admin panel
+├── Database.py            # Database setup and session management using SQLAlchemy
+├── Utils.py               # Helper functions: password hashing, card generation, GUI placeholders
+├── Main.py                # Application entry point: initializes database, AdminPanel, and GUI
+└── README.md              # Project documentation
+
 ```
+
 ----
 # Requirements
 
