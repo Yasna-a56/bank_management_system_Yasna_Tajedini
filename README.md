@@ -41,20 +41,23 @@ Bank_Management/
 
 - Python 3.8+
 - Libraries:
-  - `tkinter` (usually included with Python)
-  - `sqlalchemy`
-  - `numpy`
+ `tkinter`
+ `sqlalchemy`
+ `numpy`
+
+----
+<h1 align="left">Installation </h1>
 
 Install required libraries via pip:
-
 ```bash
 pip install sqlalchemy numpy
+```
 
 
 
 
 ----
-# How To Use
+<h1 align="left">How To Use </h1>
 
 
 1. Run the application by executing `Main.py`.
