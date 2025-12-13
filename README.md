@@ -36,7 +36,6 @@ Bank_Management/
 ├── Utils.py               # Helper functions: password hashing, card generation, GUI placeholders
 ├── Main.py                # Application entry point: initializes database, AdminPanel, and GUI
 └── README.md              # Project documentation
-
 ```
 
 ----
