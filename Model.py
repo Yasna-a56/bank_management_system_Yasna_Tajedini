@@ -1,18 +1,3 @@
-'''
-Yasna: salam vaqteton bekhair
-soal ---> bebakhshid baraye "relationships" bayad do tarafe dar "classs" vared beshan? 
-          masala ham dar class customer(Base): ---> accounts = relationship("Account", back_populates="customers")
-          a ham dar class account(Base): ---> customer = relationship("Customer", back_populates="accounts")
-          ya faqat yeki az classha be relationships(ertebat table ha) eshare kone kafie?
-
-
-APM: salam , bale kamelan dorost neveshtid inja relationship ro .
-shayad bazi az tabel ha nakahn relationship vali baraye mohkam kari khobe b hamashon add krd
-moafagh abshid
-
-
-Yasna: mamnonam
-'''
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
@@ -70,3 +55,4 @@ class Transaction(Base):
     accounts = relationship("Account", foreign_keys=[account_id], back_populates="transactions")
     from_account = relationship("Account", foreign_keys=[from_account_id], back_populates="sent_transactions")
     to_account = relationship("Account", foreign_keys=[to_account_id], back_populates="received_transactions")
+
