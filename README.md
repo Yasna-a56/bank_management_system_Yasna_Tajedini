@@ -52,7 +52,7 @@ Bank_Management/
 
 Install required libraries via pip:
 ```bash
-pip install sqlalchemy numpy
+pip install numpy
 ```
 
 
