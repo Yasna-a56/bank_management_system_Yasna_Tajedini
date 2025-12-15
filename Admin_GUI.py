@@ -1,18 +1,3 @@
-'''
-
-Yasna: salam ostad, vaqt bekhair
-ta injaye project drost pish raftam va ghabele ghabool hast?
-
-
-APM: salam bale kheyli awli ahsant
-fght b README.md ba gpt ya komake khodeton description khob ezafe konid for use later
-
-
-Yasna: salam bale, ezafe karkam, man farda proje ro dar sorat takmili az nazar shoma baraye moasese email mikonam
-
-
-'''
-
 import tkinter as tk
 from tkinter import messagebox, ttk
 from Model import Customer, Account, Transaction
@@ -621,6 +606,7 @@ class AdminGUI:
                 command=self.show_dashboard).pack(pady=5)
 
             return
+
 
 
 
